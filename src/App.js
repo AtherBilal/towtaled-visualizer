@@ -5,6 +5,7 @@ import {
   LayerPanel,
   Controls,
   ContextMenu,
+  loadDataLayer,
   LayerStyler,
   LayerPanelPage,
   LayerPanelContent,
@@ -17,6 +18,7 @@ import olFeature from 'ol/Feature'
 import olGeomPoint from 'ol/geom/Point'
 import olSourceVector from 'ol/source/Vector'
 
+import LayersIcon from '@material-ui/icons/Layers'
 
 class App extends React.Component {
   constructor() {
@@ -28,8 +30,9 @@ class App extends React.Component {
   onMapInit = async (map) => {
     // create a vector layer and add to the map
     const url = 'https://g499yhptoj.execute-api.us-east-1.amazonaws.com/dev/locations'
-    const locations = await fetch(url).then(res => res.json())
-    console.log(locations)
+    let locations = await fetch(url).then(res => res.json())
+    locations = [ locations[0] ]
+    
     const features = locations.map((location) => {
       return new olFeature({
         ...location,
@@ -47,26 +50,26 @@ class App extends React.Component {
 
     const getLocations = async () => {
       // const url = 'http://localhost:3000/locations'
-      const locations = await fetch (url).then(res => res.json())
+      let locations = await fetch (url).then(res => res.json())
+      locations = [ locations[0] ]
 
-      const feature = new olFeature({
-        ...locations[0],
-        geometry: new olGeomPoint(fromLonLat([locations[0].long, locations[0].lat]))
+      const features = locations.map((location) => {
+        return new olFeature({
+          ...location,
+          geometry: new olGeomPoint(fromLonLat([location.long, location.lat]))
+        })
       })
-
-      // const features = locations.map((location) => {
-      //   return new olFeature({
-      //     ...location,
-      //     geometry: new olGeomPoint(fromLonLat([location.long, location.lat]))
-      //   })
-      // })
 
       if (this.state.wipeOnRefresh) layer.getSource().clear()
 
-      layer.getSource().addFeatures(feature)
+      layer.getSource().addFeatures(features)
     }
 
     setInterval(getLocations, 3000)
+
+    // const dataLayer = await loadDataLayer(map, 'https://data.nasa.gov/api/geospatial/7zbq-j77a?method=export&format=KML')
+    // //
+    // dataLayer.getSource().getFeatures().forEach(f => f.set('title', f.get('name')))
 
     window.map = map
   }
