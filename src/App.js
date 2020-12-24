@@ -48,7 +48,6 @@ class App extends React.Component {
     const getLocations = async () => {
       // const url = 'http://localhost:3000/locations'
       const locations = await fetch (url).then(res => res.json())
-      console.log(locations)
 
       const feature = new olFeature({
         ...locations[0],
