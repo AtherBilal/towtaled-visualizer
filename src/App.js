@@ -17,7 +17,6 @@ import olFeature from 'ol/Feature'
 import olGeomPoint from 'ol/geom/Point'
 import olSourceVector from 'ol/source/Vector'
 
-import LayersIcon from '@material-ui/icons/Layers'
 
 class App extends React.Component {
   constructor() {
@@ -51,16 +50,21 @@ class App extends React.Component {
       const locations = await fetch (url).then(res => res.json())
       console.log(locations)
 
-      const features = locations.map((location) => {
-        return new olFeature({
-          ...location,
-          geometry: new olGeomPoint(fromLonLat([location.long, location.lat]))
-        })
+      const feature = new olFeature({
+        ...locations[0],
+        geometry: new olGeomPoint(fromLonLat([locations[0].long, locations[0].lat]))
       })
+
+      // const features = locations.map((location) => {
+      //   return new olFeature({
+      //     ...location,
+      //     geometry: new olGeomPoint(fromLonLat([location.long, location.lat]))
+      //   })
+      // })
 
       if (this.state.wipeOnRefresh) layer.getSource().clear()
 
-      layer.getSource().addFeatures(features)
+      layer.getSource().addFeatures(feature)
     }
 
     setInterval(getLocations, 3000)
