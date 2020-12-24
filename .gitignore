@@ -14,3 +14,4 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .vscode
 .env
+.DS_Store
