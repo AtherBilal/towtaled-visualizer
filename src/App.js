@@ -32,7 +32,7 @@ class App extends React.Component {
     const url = 'https://g499yhptoj.execute-api.us-east-1.amazonaws.com/dev/locations'
     let locations = await fetch(url).then(res => res.json())
     locations = [ locations[0] ]
-    
+
     const features = locations.map((location) => {
       return new olFeature({
         ...location,
