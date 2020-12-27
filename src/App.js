@@ -51,11 +51,12 @@ class App extends React.Component {
     const getLocations = async () => {
       // const url = 'http://localhost:3000/locations'
       let locations = await fetch (url).then(res => res.json())
-      locations = [ locations[0] ]
+      locations = [ locations[0] ] // remove this line,
 
       const features = locations.map((location) => {
         return new olFeature({
           ...location,
+          timestamp: new Date(location.timestamp),
           geometry: new olGeomPoint(fromLonLat([location.long, location.lat]))
         })
       })
@@ -65,7 +66,7 @@ class App extends React.Component {
       layer.getSource().addFeatures(features)
     }
 
-    setInterval(getLocations, 3000)
+    setInterval(getLocations, 30000)
 
     // const dataLayer = await loadDataLayer(map, 'https://data.nasa.gov/api/geospatial/7zbq-j77a?method=export&format=KML')
     // //
