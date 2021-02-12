@@ -31,7 +31,6 @@ class App extends React.Component {
     // create a vector layer and add to the map
     const url = 'https://95gc0kospc.execute-api.ca-central-1.amazonaws.com/prod/alerts?radius=450000000&lat=43.7425651&long=-79.2148452&time=1'
     let locations = await fetch(url).then(res => res.json())
-    locations = [ locations[0] ]
 
     const features = locations.map((location) => {
       return new olFeature({
