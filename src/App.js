@@ -29,7 +29,7 @@ class App extends React.Component {
   }
   onMapInit = async (map) => {
     // create a vector layer and add to the map
-    const url = 'https://g499yhptoj.execute-api.us-east-1.amazonaws.com/dev/locations'
+    const url = 'https://g499yhptoj.execute-api.us-east-1.amazonaws.com/dev/alerts'
     let locations = await fetch(url).then(res => res.json())
     locations = [ locations[0] ]
 
@@ -51,7 +51,7 @@ class App extends React.Component {
     const getLocations = async () => {
       // const url = 'http://localhost:3000/locations'
       let locations = await fetch (url).then(res => res.json())
-      locations = [ locations[0] ] // remove this line,
+      // locations = [ locations[0] ] // remove this line,
 
       const features = locations.map((location) => {
         return new olFeature({
@@ -67,10 +67,6 @@ class App extends React.Component {
     }
 
     setInterval(getLocations, 30000)
-
-    // const dataLayer = await loadDataLayer(map, 'https://data.nasa.gov/api/geospatial/7zbq-j77a?method=export&format=KML')
-    // //
-    // dataLayer.getSource().getFeatures().forEach(f => f.set('title', f.get('name')))
 
     window.map = map
   }
