@@ -5,7 +5,6 @@ import {
   LayerPanel,
   Controls,
   ContextMenu,
-  loadDataLayer,
   LayerStyler,
   LayerPanelPage,
   LayerPanelContent,
@@ -13,12 +12,10 @@ import {
   VectorLayer,
   DrawContainer
 } from '@bayer/ol-kit'
-import { fromLonLat } from 'ol/proj'
-import olFeature from 'ol/Feature'
-import olGeomPoint from 'ol/geom/Point'
 import olSourceVector from 'ol/source/Vector'
+import getAlerts from './utils/getAlerts'
+import getDriverLocations from './utils/getDriverLocations'
 
-import LayersIcon from '@material-ui/icons/Layers'
 
 class App extends React.Component {
   constructor() {
@@ -29,43 +26,22 @@ class App extends React.Component {
   }
   onMapInit = async (map) => {
     // create a vector layer and add to the map
-    const url = 'https://95gc0kospc.execute-api.ca-central-1.amazonaws.com/prod/alerts?radius=450000000&lat=43.7425651&long=-79.2148452&time=1'
-    let locations = await fetch(url).then(res => res.json())
-
-    const features = locations.map((location) => {
-      return new olFeature({
-        ...location,
-        geometry: new olGeomPoint(fromLonLat([location.long, location.lat]))
-      })
-    })
-    const layer = new VectorLayer({
-      title: 'User Locations',
-      source: new olSourceVector({
-        features
-      })
+    const alertsLayer = new VectorLayer({
+      title: 'Alerts',
+      source: new olSourceVector({})
     })
 
-    map.addLayer(layer)
+    const driversLayer = new VectorLayer({
+      title: 'Driver',
+      source: new olSourceVector({})
+    })
 
-    const getLocations = async () => {
-      // const url = 'http://localhost:3000/locations'
-      let locations = await fetch (url).then(res => res.json())
-      // locations = [ locations[0] ] // remove this line,
-
-      const features = locations.map((location) => {
-        return new olFeature({
-          ...location,
-          timestamp: new Date(location.timestamp),
-          geometry: new olGeomPoint(fromLonLat([location.long, location.lat]))
-        })
-      })
-
-      if (this.state.wipeOnRefresh) layer.getSource().clear()
-
-      layer.getSource().addFeatures(features)
-    }
-
-    setInterval(getLocations, 30000)
+    map.addLayer(driversLayer)
+    map.addLayer(alertsLayer)
+    await getDriverLocations(driversLayer)
+    await getAlerts(alertsLayer)
+    setInterval(() => getDriverLocations(driversLayer), 30000)
+    setInterval(() => getAlerts(alertsLayer), 30000)
 
     window.map = map
   }
