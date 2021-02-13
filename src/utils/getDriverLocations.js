@@ -13,9 +13,8 @@ const getDriverLocations = async (layer) => {
 
 
   const driverLocationsFeatures = driverLocations.map((location) => {
-    console.log(location)
     let driverLocationsFeature = new olFeature({
-      name: location.title,
+      name: location.userid,
       ...location,
       timestamp: new Date(location.timestamp),
       geometry: new olGeomPoint(fromLonLat([location.long, location.lat]))
