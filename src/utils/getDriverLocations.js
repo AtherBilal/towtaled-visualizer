@@ -4,7 +4,6 @@ import olGeomPoint from 'ol/geom/Point'
 import olStyle from 'ol/style/Style'
 import olStroke from 'ol/style/Stroke'
 import olIcon from 'ol/style/Icon'
-import olCircleStyle from 'ol/style/Circle'
 
 const getDriverLocations = async (layer) => {
   const url = 'https://95gc0kospc.execute-api.ca-central-1.amazonaws.com/prod/locations'
