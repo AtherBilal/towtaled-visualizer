@@ -10,7 +10,6 @@ const getDriverLocations = async (layer) => {
   let driverLocations = await fetch (url).then(res => res.json())
   layer.getSource().clear()
 
-
   const driverLocationsFeatures = driverLocations.map((location) => {
     let driverLocationsFeature = new olFeature({
       name: location.userid,

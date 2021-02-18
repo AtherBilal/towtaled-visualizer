@@ -15,15 +15,11 @@ import {
 import olSourceVector from 'ol/source/Vector'
 import getAlerts from './utils/getAlerts'
 import getDriverLocations from './utils/getDriverLocations'
+import QueryFilter from './components/QueryFilter'
 
 
 class App extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      wipeOnRefresh: true
-    }
-  }
+
   onMapInit = async (map) => {
     // create a vector layer and add to the map
     const alertsLayer = new VectorLayer({
@@ -38,10 +34,6 @@ class App extends React.Component {
 
     map.addLayer(driversLayer)
     map.addLayer(alertsLayer)
-    await getDriverLocations(driversLayer)
-    await getAlerts(alertsLayer)
-    setInterval(() => getDriverLocations(driversLayer), 30000)
-    setInterval(() => getAlerts(alertsLayer), 30000)
 
     window.map = map
   }
@@ -50,7 +42,7 @@ class App extends React.Component {
     return (
       <Map onMapInit={this.onMapInit} fullScreen>
         <Popup />
-        <LayerPanel>
+        {/* <LayerPanel>
           <LayerPanelPage tabIcon='Layer Styler'>
             <LayerPanelContent style={{ padding: '0px', fontFamily: 'Roboto, Arial, sans-serif' }}>
               <LayerStyler />
@@ -61,8 +53,9 @@ class App extends React.Component {
               <DrawContainer style={{ position: 'relative', width: 'auto' }} />
             </LayerPanelContent>
           </LayerPanelPage>
-        </LayerPanel>
+        </LayerPanel> */}
         <ContextMenu />
+        <QueryFilter />
         <Controls />
         <BasemapContainer />
       </Map>
