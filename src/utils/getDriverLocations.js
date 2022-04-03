@@ -22,7 +22,7 @@ const getDriverLocations = async (layer) => {
       stroke: new olStroke(),
         image: new olIcon({
         opacity: 1,
-        src: 'https://image.flaticon.com/icons/png/512/89/89132.png',
+        src: 'https://cdn3.iconfinder.com/data/icons/car-repair-icons/486/Tow_Truck-512.png',
         scale: .05
       })
     })

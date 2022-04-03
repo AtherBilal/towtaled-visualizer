@@ -2,19 +2,12 @@ import React from 'react'
 import {
   Map,
   Popup,
-  LayerPanel,
   Controls,
   ContextMenu,
-  LayerStyler,
-  LayerPanelPage,
-  LayerPanelContent,
   BasemapContainer,
   VectorLayer,
-  DrawContainer
 } from '@bayer/ol-kit'
 import olSourceVector from 'ol/source/Vector'
-import getAlerts from './utils/getAlerts'
-import getDriverLocations from './utils/getDriverLocations'
 import QueryFilter from './components/QueryFilter'
 
 
